@@ -1,2 +1,3 @@
-rootProject.name = 'Diplom'
+rootProject.name = 'diplom'
+include 'Tet'
 
