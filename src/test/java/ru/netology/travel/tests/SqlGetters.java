@@ -1,4 +1,4 @@
-package ru.netology.travel;
+package ru.netology.travel.tests;
 
 import lombok.SneakyThrows;
 
