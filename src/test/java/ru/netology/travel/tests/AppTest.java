@@ -2,91 +2,89 @@ package ru.netology.travel.tests;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ru.netology.travel.Date.DbUtils;
 import ru.netology.travel.pages.CreditPage;
+import ru.netology.travel.Date.Data;
 import ru.netology.travel.pages.PayPage;
-import ru.netology.travel.pages.data;
-import ru.netology.travel.tests.SqlGetters;
-
+import java.sql.SQLException;
 import static com.codeborne.selenide.Selenide.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AppTest {
     //  TODO    mysql    OR    postgresql
-    private String database = "mysql";
-
-    SqlGetters sqlGetters = new SqlGetters();
 
     @BeforeEach
-    public void setUpAll() {
-        open("http://localhost:8080");
+    void setUp() {
+        DbUtils.clearTables();
+        String url = System.getProperty("sut.url");
+        open(url);
     }
-
     @Test
-    void successfulDebitBuy() {
+    void successfulDebitBuy() throws SQLException{
         var order = new PayPage();
-        order.Clickbuybutton();
-        order.CardNumber(data.CardNumber.getFirstCardNumber());
-        order.inputmonth(data.cardMonth.getThisMonth());
-        order.inputyear(data.cardyear.getThisYear());
-        order.inputOwner(data.Owner.getCorrectOwner());
-        order.inputcode(data.cardCVV.getCorrectcode());
-        order.Clickcontinue();
+        order.сlickbuybutton();
+        order.сardNumber(Data.CardNumber.getFirstCardNumber());
+        order.inputmonth(Data.CardMonth.getThisMonth());
+        order.inputyear(Data.Cardyear.getThisYear());
+        order.inputOwner(Data.Owner.getCorrectOwner());
+        order.inputcode(Data.CardCVV.getCorrectcode());
+        order.сlickcontinue();
         order.verifySuccess();
-        assertEquals("APPROVED", sqlGetters.getStatus(database));
+        assertEquals("APPROVED", DbUtils.getPayStatus());
     }
 
     @Test
-    void declinedDebitBuy() {
+    void declinedDebitBuy() throws SQLException{
         var order = new PayPage();
-        order.Clickbuybutton();
-        order.CardNumber(data.CardNumber.getSecondCardNumber());
-        order.inputmonth(data.cardMonth.getThisMonth());
-        order.inputyear(data.cardyear.getThisYear());
-        order.inputOwner(data.Owner.getCorrectOwner());
-        order.inputcode(data.cardCVV.getCorrectcode());
-        order.Clickcontinue();
+        order.сlickbuybutton();
+        order.сardNumber(Data.CardNumber.getSecondCardNumber());
+        order.inputmonth(Data.CardMonth.getThisMonth());
+        order.inputyear(Data.Cardyear.getThisYear());
+        order.inputOwner(Data.Owner.getCorrectOwner());
+        order.inputcode(Data.CardCVV.getCorrectcode());
+        order.сlickcontinue();
         order.verifyError();
-        assertEquals("DECLINED", sqlGetters.getStatus(database));
+        assertEquals("DECLINED", DbUtils.getPayStatus());
     }
 
     @Test
-    void successfulCreditBuy() {
+    void successfulCreditBuy() throws SQLException{
         var order = new CreditPage();
-        order.Clickcreditbutton();
-        order.CardNumber(data.CardNumber.getFirstCardNumber());
-        order.inputmonth(data.cardMonth.getThisMonth());
-        order.inputyear(data.cardyear.getThisYear());
-        order.inputOwner(data.Owner.getCorrectOwner());
-        order.inputcode(data.cardCVV.getCorrectcode());
-        order.Clickcontinue();
+        order.сlickcreditbutton();
+        order.сardNumber(Data.CardNumber.getFirstCardNumber());
+        order.inputmonth(Data.CardMonth.getThisMonth());
+        order.inputyear(Data.Cardyear.getThisYear());
+        order.inputOwner(Data.Owner.getCorrectOwner());
+        order.inputcode(Data.CardCVV.getCorrectcode());
+        order.сlickcontinue();
         order.verifySuccess();
-        assertEquals("APPROVED", sqlGetters.getStatus(database));
+        assertEquals("APPROVED", DbUtils.getCreditStatus());
     }
 
     @Test
-    void declinedCreditBuy() {
+    void declinedCreditBuy() throws SQLException{
         var order = new CreditPage();
-        order.Clickcreditbutton();
-        order.CardNumber(data.CardNumber.getSecondCardNumber());
-        order.inputmonth(data.cardMonth.getThisMonth());
-        order.inputyear(data.cardyear.getThisYear());
-        order.inputOwner(data.Owner.getCorrectOwner());
-        order.inputcode(data.cardCVV.getCorrectcode());
-        order.Clickcontinue();
+        order.сlickcreditbutton();
+        order.сardNumber(Data.CardNumber.getSecondCardNumber());
+        order.inputmonth(Data.CardMonth.getThisMonth());
+        order.inputyear(Data.Cardyear.getThisYear());
+        order.inputOwner(Data.Owner.getCorrectOwner());
+        order.inputcode(Data.CardCVV.getCorrectcode());
+        order.сlickcontinue();
         order.verifyError();
-        assertEquals("DECLINED", sqlGetters.getStatus(database));
+        assertEquals("DECLINED", DbUtils.getCreditStatus());
     }
 
     @Test
     void emptyForm() {
         var order = new PayPage();
-        order.Clickbuybutton();
-        order.CardNumber(data.CardNumber.getIncorrectCardNumber());
-        order.inputmonth(data.cardMonth.getIncorrectMonth());
-        order.inputyear(data.cardyear.getIncorrectYear());
-        order.inputOwner(data.Owner.getIncorrectOwner());
-        order.inputcode(data.cardCVV.getIncorrectcode());
-        order.Clickcontinue();
+        order.сlickbuybutton();
+        order.сardNumber(Data.CardNumber.getIncorrectCardNumber());
+        order.inputmonth(Data.CardMonth.getIncorrectMonth());
+        order.inputyear(Data.Cardyear.getIncorrectYear());
+        order.inputOwner(Data.Owner.getIncorrectOwner());
+        order.inputcode(Data.CardCVV.getIncorrectcode());
+        order.сlickcontinue();
         order.cardValidate();
         order.ownerValidate();
         order.monthValidate();
@@ -97,103 +95,103 @@ public class AppTest {
     @Test
     void validateMonth() {
         var order = new PayPage();
-        order.Clickbuybutton();
-        order.CardNumber(data.CardNumber.getFirstCardNumber());
-        order.inputmonth(data.cardMonth.getFalseMonth());
-        order.inputyear(data.cardyear.getThisYear());
-        order.inputOwner(data.Owner.getCorrectOwner());
-        order.inputcode(data.cardCVV.getCorrectcode());
-        order.Clickcontinue();
+        order.сlickbuybutton();
+        order.сardNumber(Data.CardNumber.getFirstCardNumber());
+        order.inputmonth(Data.CardMonth.getFalseMonth());
+        order.inputyear(Data.Cardyear.getThisYear());
+        order.inputOwner(Data.Owner.getCorrectOwner());
+        order.inputcode(Data.CardCVV.getCorrectcode());
+        order.сlickcontinue();
         order.monthValidate();
     }
 
     @Test
     void wrongSymbolsMonth() {
         var order = new PayPage();
-        order.Clickbuybutton();
-        order.CardNumber(data.CardNumber.getFirstCardNumber());
-        order.inputmonth(data.cardMonth.getSpecialsCardMonth());
-        order.inputyear(data.cardyear.getThisYear());
-        order.inputOwner(data.Owner.getCorrectOwner());
-        order.inputcode(data.cardCVV.getCorrectcode());
-        order.Clickcontinue();
+        order.сlickbuybutton();
+        order.сardNumber(Data.CardNumber.getFirstCardNumber());
+        order.inputmonth(Data.CardMonth.getSpecialsCardMonth());
+        order.inputyear(Data.Cardyear.getThisYear());
+        order.inputOwner(Data.Owner.getCorrectOwner());
+        order.inputcode(Data.CardCVV.getCorrectcode());
+        order.сlickcontinue();
         order.monthValidate();
     }
 
     @Test
     void zeroMonth() {
         var order = new PayPage();
-        order.Clickbuybutton();
-        order.CardNumber(data.CardNumber.getFirstCardNumber());
-        order.inputmonth(data.cardMonth.getIncorrectMonth());
-        order.inputyear(data.cardyear.getThisYear());
-        order.inputOwner(data.Owner.getCorrectOwner());
-        order.inputcode(data.cardCVV.getCorrectcode());
-        order.Clickcontinue();
+        order.сlickbuybutton();
+        order.сardNumber(Data.CardNumber.getFirstCardNumber());
+        order.inputmonth(Data.CardMonth.getIncorrectMonth());
+        order.inputyear(Data.Cardyear.getThisYear());
+        order.inputOwner(Data.Owner.getCorrectOwner());
+        order.inputcode(Data.CardCVV.getCorrectcode());
+        order.сlickcontinue();
         order.monthValidate();
     }
 
     @Test
     void validateYear() {
         var order = new PayPage();
-        order.Clickbuybutton();
-        order.CardNumber(data.CardNumber.getFirstCardNumber());
-        order.inputmonth(data.cardMonth.getThisMonth());
-        order.inputyear(data.cardyear.getIncorrectYear());
-        order.inputOwner(data.Owner.getCorrectOwner());
-        order.inputcode(data.cardCVV.getCorrectcode());
-        order.Clickcontinue();
+        order.сlickbuybutton();
+        order.сardNumber(Data.CardNumber.getFirstCardNumber());
+        order.inputmonth(Data.CardMonth.getThisMonth());
+        order.inputyear(Data.Cardyear.getIncorrectYear());
+        order.inputOwner(Data.Owner.getCorrectOwner());
+        order.inputcode(Data.CardCVV.getCorrectcode());
+        order.сlickcontinue();
         order.yearValidate();
     }
 
     @Test
     void wrongSymbolsYear() {
         var order = new PayPage();
-        order.Clickbuybutton();
-        order.CardNumber(data.CardNumber.getFirstCardNumber());
-        order.inputmonth(data.cardMonth.getThisMonth());
-        order.inputyear(data.cardyear.getSpecialsCardYear());
-        order.inputOwner(data.Owner.getCorrectOwner());
-        order.inputcode(data.cardCVV.getCorrectcode());
-        order.Clickcontinue();
+        order.сlickbuybutton();
+        order.сardNumber(Data.CardNumber.getFirstCardNumber());
+        order.inputmonth(Data.CardMonth.getThisMonth());
+        order.inputyear(Data.Cardyear.getSpecialsCardYear());
+        order.inputOwner(Data.Owner.getCorrectOwner());
+        order.inputcode(Data.CardCVV.getCorrectcode());
+        order.сlickcontinue();
         order.yearValidate();
     }
 
     @Test
     void validateOwner() {
         var order = new PayPage();
-        order.Clickbuybutton();
-        order.CardNumber(data.CardNumber.getFirstCardNumber());
-        order.inputmonth(data.cardMonth.getThisMonth());
-        order.inputyear(data.cardyear.getThisYear());
-        order.inputOwner(data.Owner.getIncorrectOwner());
-        order.inputcode(data.cardCVV.getCorrectcode());
-        order.Clickcontinue();
+        order.сlickbuybutton();
+        order.сardNumber(Data.CardNumber.getFirstCardNumber());
+        order.inputmonth(Data.CardMonth.getThisMonth());
+        order.inputyear(Data.Cardyear.getThisYear());
+        order.inputOwner(Data.Owner.getIncorrectOwner());
+        order.inputcode(Data.CardCVV.getCorrectcode());
+        order.сlickcontinue();
         order.ownerValidate();
     }
 
     @Test
     void wrongSymbolsOwner() {
         var order = new PayPage();
-        order.Clickbuybutton();
-        order.CardNumber(data.CardNumber.getFirstCardNumber());
-        order.inputmonth(data.cardMonth.getThisMonth());
-        order.inputyear(data.cardyear.getThisYear());
-        order.inputOwner(data.Owner.getSpecialsOwner());
-        order.inputcode(data.cardCVV.getCorrectcode());
+        order.сlickbuybutton();
+        order.сardNumber(Data.CardNumber.getFirstCardNumber());
+        order.inputmonth(Data.CardMonth.getThisMonth());
+        order.inputyear(Data.Cardyear.getThisYear());
+        order.inputOwner(Data.Owner.getSpecialsOwner());
+        order.inputcode(Data.CardCVV.getCorrectcode());
         order.ownerValidate();
     }
 
     @Test
     void validateCode() {
         var order = new PayPage();
-        order.Clickbuybutton();
-        order.CardNumber(data.CardNumber.getFirstCardNumber());
-        order.inputmonth(data.cardMonth.getThisMonth());
-        order.inputyear(data.cardyear.getThisYear());
-        order.inputOwner(data.Owner.getCorrectOwner());
-        order.inputcode(data.cardCVV.getIncorrectcode());
-        order.Clickcontinue();
+        order.сlickbuybutton();
+        order.сardNumber(Data.CardNumber.getFirstCardNumber());
+        order.inputmonth(Data.CardMonth.getThisMonth());
+        order.inputyear(Data.Cardyear.getThisYear());
+        order.inputOwner(Data.Owner.getCorrectOwner());
+        order.inputcode(Data.CardCVV.getIncorrectcode());
+        order.сlickcontinue();
         order.codeValidate();
     }
 }

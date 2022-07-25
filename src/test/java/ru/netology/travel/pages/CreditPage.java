@@ -2,13 +2,10 @@ package ru.netology.travel.pages;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
-import com.github.javafaker.Faker;
 import org.openqa.selenium.By;
-import ru.netology.travel.tests.SqlGetters;
+import ru.netology.travel.Date.Data;
 
 import java.time.Duration;
-import java.util.Locale;
-import java.util.Random;
 
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Selenide.$;
@@ -28,25 +25,25 @@ public class CreditPage {
     private SelenideElement creditBuyButton = $$("[class=button__content]").get(1);
     private SelenideElement continueButton = $$("[class=button__content]").get(2);
 
-    public void Clickcreditbutton() {
+    public void сlickcreditbutton() {
         creditBuyButton.click();
     }
-    public void Clickcontinue() {
+    public void сlickcontinue() {
         continueButton.click();
     }
-    public void CardNumber(data.CardNumber CardNumber) {
+    public void сardNumber(Data.CardNumber CardNumber) {
         cardNumber.setValue(CardNumber.getCardNumber());
     }
-    public void inputOwner(data.Owner Owner) {
+    public void inputOwner(Data.Owner Owner) {
         owner.setValue(Owner.getOwner());
     }
-    public void inputcode(data.cardCVV cardCVV) {
+    public void inputcode(Data.CardCVV cardCVV) {
         code.setValue(cardCVV.getCardCVV());
     }
-    public void inputyear(data.cardyear cardyear) {
+    public void inputyear(Data.Cardyear cardyear) {
         year.setValue(cardyear.getCardyear());
     }
-    public void inputmonth(data.cardMonth cardMonth) {
+    public void inputmonth(Data.CardMonth cardMonth) {
         month.setValue(cardMonth.getCardMonth());
     }
 

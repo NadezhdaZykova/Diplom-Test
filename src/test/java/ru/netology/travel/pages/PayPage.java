@@ -4,6 +4,8 @@ import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
+import ru.netology.travel.Date.Data;
+
 import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.*;
@@ -26,25 +28,23 @@ public class PayPage {
     private SelenideElement continueButton = $$("[class=button__content]").get(2);
     private SelenideElement buyButton = $("[class=button__content]");
 
-    public void Clickbuybutton() {
-        buyButton.click();
-    }
-    public void Clickcontinue() {
+    public void сlickbuybutton() { buyButton.click(); }
+    public void сlickcontinue() {
         continueButton.click();
     }
-    public void CardNumber(data.CardNumber CardNumber) {
+    public void сardNumber(Data.CardNumber CardNumber) {
         cardNumber.setValue(CardNumber.getCardNumber());
     }
-    public void inputOwner(data.Owner Owner) {
+    public void inputOwner(Data.Owner Owner) {
         owner.setValue(Owner.getOwner());
     }
-    public void inputcode(data.cardCVV cardCVV) {
+    public void inputcode(Data.CardCVV cardCVV) {
         code.setValue(cardCVV.getCardCVV());
     }
-    public void inputyear(data.cardyear cardyear) {
+    public void inputyear(Data.Cardyear cardyear) {
         year.setValue(cardyear.getCardyear());
     }
-    public void inputmonth(data.cardMonth cardMonth) {
+    public void inputmonth(Data.CardMonth cardMonth) {
         month.setValue(cardMonth.getCardMonth());
     }
     public void AllFieldsvalidate() {

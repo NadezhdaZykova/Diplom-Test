@@ -32,6 +32,8 @@ dependencies {
     testImplementation 'mysql:mysql-connector-java:8.0.22'
     implementation 'org.postgresql:postgresql:42.1.4'
     compile "org.slf4j:slf4j-simple:1.7.9"
+    implementation group: 'commons-dbutils', name: 'commons-dbutils', version: '1.7'
+
 }
 
 test {
